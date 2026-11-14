@@ -43,7 +43,6 @@ function createBackgroundBats() {
 
   for (let i = 0; i < amount; i++) {
     const bat = createBat(batBackground, "background-bat");
-
     const size = gsap.utils.random(18, 55);
 
     bat.style.setProperty("--size", `${size}px`);
@@ -94,7 +93,6 @@ function runIntro() {
   const isMobile = window.innerWidth < 700;
   const batCount = isMobile ? 65 : 125;
 
-  /* Create the swarm */
   for (let i = 0; i < batCount; i++) {
     const bat = createBat(batCover, "bat");
 
@@ -105,8 +103,15 @@ function runIntro() {
 
     bat.style.setProperty("--size", `${size}px`);
 
-    const startX = gsap.utils.random(-window.innerWidth, window.innerWidth * 2);
-    const startY = gsap.utils.random(-window.innerHeight, window.innerHeight * 2);
+    const startX = gsap.utils.random(
+      -window.innerWidth,
+      window.innerWidth * 2
+    );
+
+    const startY = gsap.utils.random(
+      -window.innerHeight,
+      window.innerHeight * 2
+    );
 
     gsap.set(bat, {
       x: startX,
@@ -119,7 +124,6 @@ function runIntro() {
     bats.push(bat);
   }
 
-  /* Initial state */
   gsap.set(".opening-logo", {
     opacity: 0,
     scale: 0.75,
@@ -131,13 +135,8 @@ function runIntro() {
     y: 15
   });
 
-  gsap.set(".loading-line", {
-    opacity: 0
-  });
-
-  gsap.set(".loading-label", {
-    opacity: 0
-  });
+  gsap.set(".loading-line", { opacity: 0 });
+  gsap.set(".loading-label", { opacity: 0 });
 
   gsap.set(".profile-reveal", {
     opacity: 0,
@@ -145,9 +144,7 @@ function runIntro() {
   });
 
   const intro = gsap.timeline({
-    defaults: {
-      ease: "power3.out"
-    },
+    defaults: { ease: "power3.out" },
     onComplete: () => {
       document.body.style.overflow = "";
       opening.style.display = "none";
@@ -155,7 +152,6 @@ function runIntro() {
     }
   });
 
-  /* MK logo appears */
   intro.to(".opening-logo", {
     opacity: 1,
     scale: 1,
@@ -163,7 +159,6 @@ function runIntro() {
     duration: 1.2
   });
 
-  /* Counter and loading bar appear */
   intro.to(".loading-counter", {
     opacity: 1,
     y: 0,
@@ -180,7 +175,6 @@ function runIntro() {
     duration: 0.35
   }, "<");
 
-  /* Counter 00 to 100 */
   intro.to({ value: 0 }, {
     value: 100,
     duration: 2.5,
@@ -196,7 +190,6 @@ function runIntro() {
     }
   });
 
-  /* Bats start flying in */
   intro.addLabel("swarm");
 
   bats.forEach((bat, index) => {
@@ -215,25 +208,27 @@ function runIntro() {
     });
   });
 
-  /* Swarm fills the screen */
-  intro.to(".opening-logo, .loading-counter, .loading-line, .loading-label", {
-    opacity: 0,
-    duration: 0.35,
-    stagger: 0.04
-  }, "swarm+=0.7");
+  intro.to(
+    ".opening-logo, .loading-counter, .loading-line, .loading-label",
+    {
+      opacity: 0,
+      duration: 0.35,
+      stagger: 0.04
+    },
+    "swarm+=0.7"
+  );
 
-  /* Hold the full bat cover briefly */
-  intro.to({}, {
-    duration: 0.65
-  });
+  intro.to({}, { duration: 0.65 });
 
-  /* Bats scatter away and reveal the portfolio hero */
   bats.forEach((bat, index) => {
     const direction = Math.random() > 0.5 ? 1 : -1;
 
     gsap.to(bat, {
       x: direction * (window.innerWidth + 300),
-      y: gsap.utils.random(-window.innerHeight, window.innerHeight * 1.5),
+      y: gsap.utils.random(
+        -window.innerHeight,
+        window.innerHeight * 1.5
+      ),
       rotation: gsap.utils.random(-240, 240),
       scale: gsap.utils.random(0.4, 1.4),
       opacity: 0,
@@ -243,16 +238,13 @@ function runIntro() {
     });
   });
 
-  /* Direct reveal — no additional name screen */
   intro.to(opening, {
     opacity: 0,
     duration: 0.85,
     ease: "power2.inOut"
   }, "-=0.55");
 
-  intro.set(opening, {
-    display: "none"
-  });
+  intro.set(opening, { display: "none" });
 
   intro.call(() => {
     document.body.style.overflow = "";
@@ -373,7 +365,7 @@ function initSectionReveals() {
 }
 
 /* =========================================
-   PROJECT DETAILS MODAL
+   PROJECT DETAILS
 ========================================= */
 
 const projectData = {
@@ -382,6 +374,7 @@ const projectData = {
     title: "NEXPATH",
     description:
       "A career and community platform designed to bring students, alumni and opportunities together through one digital experience.",
+
     features: [
       "Authentication and user dashboards",
       "Community forums and events",
@@ -389,6 +382,7 @@ const projectData = {
       "React frontend connected to Spring Boot microservices",
       "REST APIs and API Gateway integration"
     ],
+
     technologies: [
       "Java",
       "Spring Boot",
@@ -396,7 +390,13 @@ const projectData = {
       "React",
       "MySQL",
       "JWT"
-    ]
+    ],
+
+    collaboration: "Collaborative CDAC project",
+
+    liveUrl: "https://nexpath-frontend.onrender.com/",
+
+    sourceUrl: "https://github.com/mohitkharatxmk/NexPath"
   },
 
   lifehub: {
@@ -404,6 +404,7 @@ const projectData = {
     title: "LIFE HUB",
     description:
       "A productivity and fitness platform bringing everyday wellness and personal progress into one place.",
+
     features: [
       "Calorie tracking",
       "Habit tracking",
@@ -411,13 +412,18 @@ const projectData = {
       "Personal progress overview",
       "AI-powered recipe recommendations"
     ],
+
     technologies: [
       "HTML",
       "CSS",
       "JavaScript",
       "React",
       "AI Integration"
-    ]
+    ],
+
+    collaboration: "",
+    liveUrl: "",
+    sourceUrl: ""
   }
 };
 
@@ -428,6 +434,7 @@ function initProjectModal() {
   const modalDescription = document.querySelector("#modal-description");
   const modalFeatures = document.querySelector("#modal-features");
   const modalTags = document.querySelector("#modal-tags");
+  const modalNote = modal?.querySelector(".modal-note");
 
   if (!modal) return;
 
@@ -454,6 +461,49 @@ function initProjectModal() {
       tag.textContent = technology;
       modalTags.appendChild(tag);
     });
+
+    if (modalNote) {
+      modalNote.replaceChildren();
+
+      if (project.collaboration) {
+        const credit = document.createElement("span");
+        credit.className = "modal-collaboration";
+        credit.textContent = project.collaboration;
+        modalNote.appendChild(credit);
+      }
+
+      const links = [
+        {
+          label: "LIVE DEMO ↗",
+          url: project.liveUrl,
+          className: "modal-project-link modal-project-link-primary"
+        },
+        {
+          label: "GITHUB SOURCE ↗",
+          url: project.sourceUrl,
+          className: "modal-project-link"
+        }
+      ].filter((item) => item.url);
+
+      if (links.length) {
+        const linkGroup = document.createElement("div");
+        linkGroup.className = "modal-project-links";
+
+        links.forEach((item) => {
+          const anchor = document.createElement("a");
+          anchor.className = item.className;
+          anchor.href = item.url;
+          anchor.target = "_blank";
+          anchor.rel = "noopener noreferrer";
+          anchor.textContent = item.label;
+          linkGroup.appendChild(anchor);
+        });
+
+        modalNote.appendChild(linkGroup);
+      } else if (!project.collaboration) {
+        modalNote.textContent = "Project links will be added soon.";
+      }
+    }
 
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
@@ -499,7 +549,8 @@ function initSectionTransitions() {
 
       event.preventDefault();
 
-      const destination = target.getBoundingClientRect().top + window.scrollY;
+      const destination =
+        target.getBoundingClientRect().top + window.scrollY;
 
       gsap.killTweensOf(transitionBat);
 
